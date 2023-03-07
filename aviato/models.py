@@ -8,12 +8,12 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=100, 
         verbose_name='Имя', null=True, blank=True)
     username = models.CharField(max_length=50, 
-        verbose_name='Имя пользователя')
+        verbose_name='Имя пользователя', null=True, blank=True)
     role = models.CharField(max_length=200, default='', 
         verbose_name="Роль пользователя")
     
-    def str(self):
-        return self.first_name
+    def __str__(self):
+        return str(self.first_name)
     
     class Meta:
         verbose_name = "Аккаунт"
@@ -33,8 +33,8 @@ class Products(models.Model):
         blank=True, null=True)
     fake_count = models.PositiveIntegerField(default=0)
 
-    def str(self) -> str:
-        return self.product
+    def __str__(self) -> str:
+        return str(self.product)
     
     class Meta:
         verbose_name = "Товар"
@@ -81,42 +81,52 @@ class Applications(models.Model):
         null=True, default="Ожидание подтверждения", verbose_name="Статус", 
         choices=CHOICES)
     location = models.CharField(max_length=3000, verbose_name="Локация", 
-        blank=True, null=True)  
+        blank=True, null=True)
     location_time = models.CharField(max_length=3000, verbose_name="Время локации", 
-        null = True, blank = True) 
-    time_update_location = models.DateTimeField(auto_now = True, 
-        verbose_name = "Время изменения локации") 
-
-    user = models.ForeignKey(Profile, on_delete = models.PROTECT, 
-        verbose_name = "Добавил") 
-    products = models.ManyToManyField(Products, verbose_name = "Привязанный товар", 
-        null = True, blank = True) 
-    bool_count = models.BooleanField(default = True, 
-        verbose_name = "Хвататет ли количество", null = True, blank = True) 
-
-    def __str__(self): 
-        return f'{self.driver} | {self.product} | {self.user}' 
+        null=True, blank=True)
+    time_update_location = models.DateTimeField(auto_now=True,
+        verbose_name='Время изменения локации')
     
-    class Meta: 
-        verbose_name = "Заявка" 
-        verbose_name_plural = "Заявки" 
+    user = models.ForeignKey(Profile, 
+        on_delete=models.PROTECT, verbose_name="Добавил")
+    products = models.ManyToManyField(Products, 
+        verbose_name="Привязанный товар")
+    bool_count = models.BooleanField(default=True, 
+        verbose_name="Хватает ли количество", null=True, blank=True)
+
+    def __str__(self):
+        return str(self.product)
+    
+    class Meta:
+        verbose_name = "Заявка"
+        verbose_name_plural = "Заявки"
 
 
 class RoleCode(models.Model):
-    user = models.ForeignKey(Profile, on_delete = models.PROTECT, 
-        related_name = "create_user",
-        verbose_name = "Пользователь который создал код")
-    active_user = models.ForeignKey(Profile, on_delete = models.PROTECT, blank = True, 
-        null = True, verbose_name = "Пользователь который активировал код")
-    code = models.CharField(max_length = 200, verbose_name = "Код")
-    role = models.CharField(max_length = 200,
-        verbose_name = "Роль которая выдается после активации кода")
+
+    CHOICES = (
+        ('Пользователь','Пользователь'),
+        ('Логист','Логист'),
+        ('Снабженец','Снабженец'),
+        ('Оператор',"Оператор"),
+        ('Водитель','Водитель'),
+        ('Упаковщик','Упаковщик'),
+        ('Менеджер','Менеджер'),
+        ('Админ','Админ'),
+    )
+
+    user = models.ForeignKey(Profile, on_delete=models.PROTECT,
+        related_name="create_user", 
+        verbose_name='Пользователь который создал код')
+    active_user = models.ForeignKey(Profile, on_delete=models.PROTECT, blank=True, 
+        null=True, verbose_name='Пользоватлеь который активировал код')
+    code = models.CharField(max_length=200, verbose_name='Код')
+    role = models.CharField(max_length=200,choices=CHOICES, default='Пользователь',
+        verbose_name='Роль которая выдается после активатции кода')
     
     def __str__(self) -> str:
-        return f'{self.user} | {self.code} | {self.role}'
+        return str(self.code)
     
     class Meta:
         verbose_name = "Код"
         verbose_name_plural = "Коды"
-
-        
