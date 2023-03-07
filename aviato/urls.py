@@ -25,9 +25,25 @@ def index(request):
 
             if len(p) >= 1:
                 return render(request, 'index.html',{
-                    'form': Geo()
+                    'form': Geo(),
                     'product': p
                 })
         except:
             pass
-        
+
+        p = Applications.objects.filter(phone = id_or_phone)
+        logger.success(p)
+
+        if len(p) >= 1:
+            return render(request, 'index.html', {
+                'form': Geo(),
+                'product': p
+            })
+        return render(request, 'index.html',{
+                'form': Geo(),
+                'product': 'Ничего не найдено'
+        })
+    
+    return render(request, 'index.html',{
+        'form': Geo
+    })
