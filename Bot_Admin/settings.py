@@ -1,5 +1,5 @@
 from pathlib import Path
-from os import getenv, path 
+from os import getenv, path, environ
 
 
 
@@ -16,7 +16,7 @@ SECRET_KEY = getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   
     'aviato'
 ]
 
@@ -47,11 +48,11 @@ ROOT_URLCONF = 'Bot_Admin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
+        'DIRS': [path.join(BASE_DIR, 'templates')], 
+        'APP_DIRS': True, 
+        'OPTIONS': { 
+            'context_processors': [ 
+                'django.template.context_processors.debug', 
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -68,11 +69,8 @@ WSGI_APPLICATION = 'Bot_Admin.wsgi.application'
 
 DATABASES = {
     'default': {
-        "HOST": getenv('PGHOST'),
-        "database": getenv('PGDATABASE'),
-        "user": getenv('PGUSER'),
-        "password": getenv('PGPASSWORDS'),
-        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -99,9 +97,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 
@@ -114,8 +112,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"

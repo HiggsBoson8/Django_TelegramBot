@@ -58,7 +58,7 @@ class Applications(models.Model):
     )
 
     note = models.CharField(max_length=5000, verbose_name='Примечание')
-    adress = models.CharField(max_length=5000, verbose_name='Адрес')
+    address = models.CharField(max_length=5000, verbose_name='Адрес')
     product = models.CharField(max_length=5000, verbose_name='Товар', 
         blank=True, null=True)
     price = models.CharField(max_length=100000, verbose_name="Цена")

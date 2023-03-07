@@ -139,7 +139,7 @@ class RoleAdmin(admin.ModelAdmin):
         obj.save()
             
 
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Profile, ProfileAdmin) 
 admin.site.register(Applications, ApplicationsAdmin)
 admin.site.register(Products, ProductsAdmin)
 admin.site.register(RoleCode, RoleAdmin)
