@@ -58,7 +58,7 @@ def data(request, id):
                 r = MyJsonResponse({
                     'products': p.product,
                     'address': p.address,
-                    'status': 'Ваш товар в дороге',
+                    'status': 'Ваш товар в дороге!',
                     'main_status': p.status,
                     'time_update_location': str((p.time_update_location).split(".")[0].split(":")[::1][0] + ":" + str(p.time_update_location).split(".")[0].split(":")[::1][-1]),
                     'price': p.price,
@@ -107,7 +107,7 @@ def data(request, id):
                 "id": str(i.pk),
             })
 
-        r = MyJsonResponse(data, safe=False)
+        r = MyJsonResponse(data, safe = False)
         r["Access-Control-Allow-Origin"] = "*"
         return r
 
