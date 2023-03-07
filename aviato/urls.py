@@ -117,5 +117,5 @@ def data(request, id):
 
 urlpatterns = [
     path('', index),
-    path('data/<str:id>')
+    path('data/<str:id>', data)
 ]
